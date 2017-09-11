@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Outline;
 import android.graphics.Path;
 import android.os.Build;
+import android.os.Build.VERSION;
+import android.os.Build.VERSION_CODES;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.util.AttributeSet;
@@ -14,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.hencoder.hencoderpracticedraw6.R;
+import com.hencoder.hencoderpracticedraw6.Utils;
 
 import static android.os.Build.VERSION.SDK_INT;
 import static com.hencoder.hencoderpracticedraw6.Utils.dpToPixel;
@@ -34,6 +37,10 @@ public class Practice01Translation extends RelativeLayout {
         super(context, attrs, defStyleAttr);
     }
 
+
+    private int count = SDK_INT > VERSION_CODES.LOLLIPOP ? 6 : 4;
+    private int position = 0;
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -49,6 +56,34 @@ public class Practice01Translation extends RelativeLayout {
             @Override
             public void onClick(final View v) {
                 // TODO 在这里处理点击事件，通过 View.animate().translationX/Y/Z() 来让 View 平移
+                switch (position){
+                    case 0:
+                        imageView.animate().translationX(Utils.dpToPixel(100));
+                        break;
+                    case 1:
+                        imageView.animate().translationX(0);
+                        break;
+                    case 2:
+                        imageView.animate().translationY(Utils.dpToPixel(50));
+                        break;
+                    case 3:
+                        imageView.animate().translationY(0);
+                        break;
+                    case 4:
+                        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+                            imageView.animate().translationZ(Utils.dpToPixel(20));
+                        }
+                        break;
+                    case 5:
+                        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
+                            imageView.animate().translationZ(0);
+                        }
+                        break;
+                }
+                position++;
+                if (position == count){
+                    position = 0;
+                }
             }
         });
     }
@@ -57,7 +92,7 @@ public class Practice01Translation extends RelativeLayout {
      * 为音乐图标设置三角形的 Outline。
      */
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    class MusicOutlineProvider extends ViewOutlineProvider {
+    private class MusicOutlineProvider extends ViewOutlineProvider {
         Path path = new Path();
 
         {

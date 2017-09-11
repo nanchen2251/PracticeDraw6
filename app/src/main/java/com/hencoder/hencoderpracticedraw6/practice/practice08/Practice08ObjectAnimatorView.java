@@ -20,6 +20,15 @@ public class Practice08ObjectAnimatorView extends View {
     // TODO 为 progress 添加 getter 和 setter 方法（setter 方法记得加 invalidate()）
     float progress = 0;
 
+    public void setProgress(float progress){
+        this.progress = progress;
+        invalidate();
+    }
+
+    public float getProgress(){
+        return this.progress;
+    }
+
     public Practice08ObjectAnimatorView(Context context) {
         super(context);
     }
